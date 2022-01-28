@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Shop>
+
+@{
+    ViewData["Title"] = "Lista Sklepów";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    <th>@Html.DisplayNameFor(model => model.Logo)</th>
+                    <th>@Html.DisplayNameFor(model => model.Nazwa)</th>
+                    <th>@Html.DisplayNameFor(model => model.Lokalizacja)</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                 {
+                    <tr>
+                        <td class="align-middle">
+                            <img class="rounded-circle" src="@item.Logo" alt="@item.Nazwa" style="max-width: 150px" />
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Nazwa)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Lokalizacja)
+                        </td>
+                        <td class="align-middle">
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i>Edytuj</a> 
+                            <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Usuń</a>
+                            }
+                            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye"></i>Szczegóły</a> 
+                        </td>
+                    </tr>
+                 }
+        </tbody>
+        </table>
+    </div>
+</div>
+
+<div style="position: fixed; right: 25px; bottom: 25px;" class="text-white">
+    <a asp-controller="Shop" asp-action="Create" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Dodaj
+    </a>
+</div>
